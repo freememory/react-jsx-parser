@@ -78,7 +78,7 @@ export default class JsxParser extends Component {
   }
 
   parseElement = (element) => {
-    const { bindings = {}, components = {} } = this.props
+    const { bindings = {}, components = {}, stripWhitespace = false } = this.props
     const { children = [], openingElement } = element
     const { attributes = [], name: { name } = {} } = openingElement
 
@@ -88,7 +88,7 @@ export default class JsxParser extends Component {
     let parsedChildren
     if (components[name] || canHaveChildren(name)) {
       parsedChildren = children.map(this.parseExpression)
-      if (!components[name] && !canHaveWhitespace(name)) {
+      if (!components[name] && (!canHaveWhitespace(name) || stripWhitespace)) {
         parsedChildren = parsedChildren.filter(child => (
           typeof child !== 'string' || !/^\s*$/.test(child)
         ))
@@ -135,6 +135,7 @@ JsxParser.defaultProps = {
   onError:          () => { },
   showWarnings:     false,
   renderInWrapper:  true,
+  stripWhitespace: false,
 }
 
 if (process.env.NODE_ENV !== 'production') {
@@ -153,5 +154,6 @@ if (process.env.NODE_ENV !== 'production') {
     onError:         PropTypes.func,
     showWarnings:    PropTypes.bool,
     renderInWrapper: PropTypes.bool,
+    stripWhitespace: PropTypes.bool,
   }
 }

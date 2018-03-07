@@ -86,5 +86,8 @@ JsxParser.defaultProps = {
   
   // If you specify renderInWrapper=false, the HTML output will have no <div> wrapper
   renderInWrapper: true,
+  
+  // If you specify stripWhitespace=true, the "old" parser behaviour will kick in and whitespace will be stripped.
+  stripWhitespace: false,
 }
 ```

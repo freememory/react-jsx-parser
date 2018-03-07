@@ -527,4 +527,11 @@ describe('JsxParser Component', () => {
     expect(text.textContent).toEqual('Text')
     expect(space2.textContent).toEqual(' ')
   })
+  
+  it('strips whitespace when you set stripWhitespace', () => {
+    const foo = ({ children }) => (<div className="foo">{children}</div>)
+    const { rendered } = render(<JsxParser stripWhitespace={true} components={{ foo }} jsx={'<foo>\n\t<a href="/url">More text</a>\n</foo>'} />)
+    expect(rendered.childNodes[0].nodeName).toEqual('DIV')
+    expect(rendered.childNodes[0].childNodes).toHaveLength(1)    
+  })
 })
